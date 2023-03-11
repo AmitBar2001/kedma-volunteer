@@ -1,30 +1,23 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from './firebase'
-import Login from './Login'
+import ReportedHours from './ReportedHours'
 import ReportHours from './ReportHours'
 import { Routes, Route } from 'react-router-dom'
 import Sidebar from './Sidebar'
+import Home from './Home'
 
-function App () {
+function App() {
   const [user] = useAuthState(auth)
 
   return (
-    <>
-      <h1 className='text-3xl font-bold underline text-center'>Kedma Volunteer</h1>
-      <div id="main-content">
-      {user != null && (
-        <h2>
-          Hey <span className="magic">{user.displayName}</span>
-        </h2>
-      )}
-      <Login />
-      </div>
+    <div className="flex bg-[url('layered-waves-haikei.svg')] bg-cover place-items-center justify-center h-screen">
       <Routes>
-        {/* <Route path='/' element={<ReportedHours uid={user.uid} />} /> */}
+        <Route path="/" element={<Home user={user} />} />
         <Route path="/Report" element={<ReportHours />} />
+        <Route path="/Hours" element={(user != null) && <ReportedHours uid={user.uid} />} />
       </Routes>
       {user != null && <Sidebar />}
-    </>
+    </div>
   )
 }
 

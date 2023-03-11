@@ -1,14 +1,14 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { signInWithGoogle, auth, logout } from './firebase'
 
-export default function Login () {
+export default function Login() {
   const [user, loading, error] = useAuthState(auth)
 
   if (loading) return <h4>loading...</h4>
 
   return (<>
     {user == null
-      ? <button className="MenuButton"
+      ? <button className="button"
         onClick={() => {
           signInWithGoogle().catch((err) => {
             console.error(err)
@@ -17,7 +17,7 @@ export default function Login () {
       >
         התחבר
       </button>
-      : <button className="MenuButton"
+      : <button className="button"
         onClick={() => {
           logout().catch((err) => {
             console.error(err)

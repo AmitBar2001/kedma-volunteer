@@ -11,7 +11,7 @@ export default function ReportedHours({ uid }: { uid: string }) {
   if (error != null) return <p>Error :(</p>
 
   return (
-    <table>
+    <table className='card overflow-scroll border-0 h-10'>
       <tr>
         <th>תאריך ביצוע</th>
         <th>סך שעות</th>
