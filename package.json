@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "tsc && vite build --mode development && vite preview"
   },
   "dependencies": {
     "@picocss/pico": "^1.5.7",
