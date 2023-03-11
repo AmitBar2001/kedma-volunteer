@@ -6,11 +6,11 @@ import { Routes, Route } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import Home from './Home'
 
-function App() {
+function App () {
   const [user] = useAuthState(auth)
 
   return (
-    <div className="flex bg-[url('layered-waves-haikei.svg')] bg-cover place-items-center justify-center h-screen">
+    <div className="flex bg-[url('/layered-waves-haikei.svg')] bg-cover place-items-center justify-center h-screen">
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="/Report" element={<ReportHours />} />
