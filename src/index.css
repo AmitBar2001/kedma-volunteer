@@ -1,87 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-#root {
-  width: 100%;
+@layer components{
+  .sidebar-icon{
+    @apply relative flex items-center justify-center
+    h-16 w-16 my-2 shadow-lg
+    bg-midnight hover:bg-white hover:text-midnight
+    rounded-3xl hover:rounded-xl
+    transition-all duration-300 ease-linear;
+  }
+  .tooltip{
+    @apply absolute w-auto p-2 m-2 bottom-20
+    text-white
+    rounded-md bg-midnight text-xs font-bold transition-all duration-100
+    scale-0 origin-bottom
+  }
+  .button{
+    @apply bg-midnight text-white h-12 w-24 font-bold mx-auto
+    rounded-3xl
+    border-2
+    hover:border-midnight hover:bg-white hover:text-midnight hover:rounded-2xl
+    transition-all duration-300 ease-linear
+  }
+  .card{
+    @apply bg-gradient-to-r from-gray-200 to-gray-300 h-1/2 max-w-screen-lg
+    rounded-3xl border-2 border-white px-12 mx-6
+  }
 }
-
-body {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  background-color: #23d5ab;
-	animation: gradient 15s ease infinite;
-}
-
-#main-content { 
-  display: flex;
-  justify-content: center;
-}
-
-.Sidebar{
-  position: fixed;
-  bottom: 0;
-  width: 100%;  
-  display: flex;
-  justify-content: space-around;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
-  border:1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(124, 124, 124, 0.37);
-}
-
-.sidebar-icon{
-  position: relative;
-  display: flex;
-  place-items: center;
-  height: 3rem;
-  width: 3rem;
-  justify-content: center;
-  color: #23d5ab;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
-  border:1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(120, 120, 120, 0.37);
-  margin-top: 2em;
-  margin-bottom: 2em;
-  border-radius: 50px;
-  transition: all 0.35s ease-in;
-}
-.sidebar-icon:hover{
-  border-radius: 20px;
-  color:  rgb(31, 128, 197);
-  cursor: pointer;
-  transition: all 0.35s ease-in-out;
-}
-
-.tooltip{
-  position: absolute;
-  width: auto;
-  padding: 1em;
-  margin: 1em;
-  right: 4em;
-  background: whitesmoke;
-  height: 2em;
-  font-size: medium;
-  opacity: 90%; 
-  border:1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(120, 120, 120, 0.37);
-  border-radius: 20px;
-  scale: 0;
-  transition: all 0.35s ease-in-out;
-  transform-origin: right;
-  color:black;
-}
-
-.sidebar-icon:hover > .tooltip{
-  scale: 1;
-  transition: all 0.35s ease-in-out;
-}
-
-form{
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
-  border:1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(120, 120, 120, 0.37);
-  padding: 4em;
-  border-radius: 20px;
-  margin: 2em;
+@layer base {
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
+  [multiple],
+  textarea,
+  select {
+    @apply w-full border-gray-300 rounded-lg shadow-sm focus:border-midnight focus:ring-midnight text-center;
+  }
 }

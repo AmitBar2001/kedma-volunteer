@@ -64,66 +64,68 @@ export default function ReportHours() {
   });
 
 
-  return <form onSubmit={formik.handleSubmit}>
-    <label htmlFor="category">
-      מערך פעילות
-    </label>
-    <select
-      name="category"
-      onChange={formik.handleChange}
-      value={formik.values.category}
-      required
-    >
-      <option>קהילה-אירועים קהילתיים</option>
-      <option>אירועים עמותתיים</option>
-      <option>הכשרות-הכשרות חינוכיות</option>
-      <option>פעילות פנים בכפר-נראות כפר אחזקה</option>
-    </select>
-    <label htmlFor="date">
-      תאריך
-    </label>
-    <input
-      type="date"
-      name="date"
-      onChange={formik.handleChange}
-      value={formik.values.date}
-      onBlur={formik.handleBlur}
-      max={new Date().toLocaleDateString('fr-ca')}
-      required
-    />
-    <label htmlFor="startHour">
-      שעת התחלה
-    </label>
-    <input
-      type="time"
-      name="startHour"
-      onChange={formik.handleChange}
-      value={formik.values.startHour}
-      onBlur={formik.handleBlur}
-      required
-    />
-    <label htmlFor="endHour">
-      שעת סיום
-    </label>
-    <input
-      type="time"
-      name="endHour"
-      onChange={formik.handleChange}
-      value={formik.values.endHour}
-      onBlur={formik.handleBlur}
-      required
-    />
-    <label htmlFor="description">
-      תיאור הפעילות
-    </label>
-    <textarea
-      id="description"
-      name="description"
-      rows={4} cols={50}
-      onChange={formik.handleChange}
-      value={formik.values.description}
-      onBlur={formik.handleBlur}>
-    </textarea>
-    <button type='submit'>שלח לאישור</button>
-  </form>
+  return <div >
+    <form className='card flex flex-col justify-center items-center gap-2 py-2 mb-24 w-full' onSubmit={formik.handleSubmit}>
+      <label htmlFor="category">
+        מערך פעילות
+      </label>
+      <select
+        name="category"
+        onChange={formik.handleChange}
+        value={formik.values.category}
+        required
+      >
+        <option>קהילה-אירועים קהילתיים</option>
+        <option>אירועים עמותתיים</option>
+        <option>הכשרות-הכשרות חינוכיות</option>
+        <option>פעילות פנים בכפר-נראות כפר אחזקה</option>
+      </select>
+      <label htmlFor="date">
+        תאריך
+      </label>
+      <input
+        type="date"
+        name="date"
+        onChange={formik.handleChange}
+        value={formik.values.date}
+        onBlur={formik.handleBlur}
+        max={new Date().toLocaleDateString('fr-ca')}
+        required
+      />
+      <label htmlFor="startHour">
+        שעת התחלה
+      </label>
+      <input
+        type="time"
+        name="startHour"
+        onChange={formik.handleChange}
+        value={formik.values.startHour}
+        onBlur={formik.handleBlur}
+        required
+      />
+      <label htmlFor="endHour">
+        שעת סיום
+      </label>
+      <input
+        type="time"
+        name="endHour"
+        onChange={formik.handleChange}
+        value={formik.values.endHour}
+        onBlur={formik.handleBlur}
+        required
+      />
+      <label htmlFor="description">
+        תיאור הפעילות
+      </label>
+      <textarea
+        id="description"
+        name="description"
+        rows={3} cols={30}
+        onChange={formik.handleChange}
+        value={formik.values.description}
+        onBlur={formik.handleBlur}>
+      </textarea>
+      <button className='button w-full' type='submit'>שלח לאישור</button>
+    </form>
+  </div>
 }

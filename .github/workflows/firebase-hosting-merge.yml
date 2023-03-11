@@ -2,19 +2,27 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-'on':
+"on":
   push:
     branches:
       - master
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEDMA_VOLUNTEER }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEDMA_VOLUNTEER }}"
           channelId: live
           projectId: kedma-volunteer
+env:
+  VITE_apiKey: "${{ secrets.apiKey }}"
+  VITE_authDomain: "${{ secrets.authDomain }}"
+  VITE_projectId: "${{ secrets.projectId }}"
+  VITE_storageBucket: "${{ secrets.storageBucket }}"
+  VITE_messagingSenderId: "${{ secrets.messagingSenderId }}"
+  VITE_appId: "${{ secrets.appId }}"
