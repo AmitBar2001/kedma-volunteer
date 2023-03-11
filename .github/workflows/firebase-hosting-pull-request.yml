@@ -15,7 +15,7 @@ jobs:
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEDMA_VOLUNTEER_DEV }}"
-          projectId: kedma-volunteer
+          projectId: kedma-volunteer-dev
 env:
   VITE_apiKey: "${{ secrets.apiKey }}"
   VITE_authDomain: "${{ secrets.authDomain }}"

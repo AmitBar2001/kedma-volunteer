@@ -1,15 +1,6 @@
 {
   "projects": {
-    "default": "kedma-volunteer"
-  },
-  "targets": {
-    "kedma-volunteer": {
-      "hosting": {
-        "dev": [
-          "kedma-volunteer-dev"
-        ]
-      }
-    }
-  },
-  "etags": {}
+    "default": "kedma-volunteer",
+    "dev": "kedma-volunteer-dev"
+  }
 }
