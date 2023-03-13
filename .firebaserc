@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "kedma-volunteer"
+    "default": "kedma-volunteer",
+    "dev": "kedma-volunteer-dev"
   }
 }
