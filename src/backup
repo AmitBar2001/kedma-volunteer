@@ -1,0 +1,12 @@
+const [approved, setApproved] = useState(0);
+const [waiting, setWaiting] = useState(0);
+if (user != null) {
+    const q = query(collection(db, 'hours'), where('uid', '==', user.uid))
+    var [snapshot] = useCollection(q)
+    setApproved(snapshot?.docs.filter(doc => doc.data().status === "מאושר").map(doc => doc.data().hours).reduce(
+        (accumulator, currentValue) => accumulator + currentValue
+    ))
+    setWaiting(snapshot?.docs.filter(doc => doc.data().status === "ממתין").map(doc => doc.data().hours).reduce(
+        (accumulator, currentValue) => accumulator + currentValue
+    ))
+}

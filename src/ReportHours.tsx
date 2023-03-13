@@ -1,9 +1,8 @@
-import { type MouseEventHandler, useCallback, useState } from 'react'
 import { db, auth } from './firebase'
 import {
   collection,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
 } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useFormik } from 'formik'
@@ -19,7 +18,7 @@ function calcTime(start: string, end: string) {
   else hours = parseInt(splitted2[0]) - parseInt(splitted1[0])
   var minutes = parseInt(splitted2[1]) - parseInt(splitted1[1])
   var total = hours + (minutes / 60)
-  if (total > 0) return total
+  if (total > 0) return parseFloat(total.toFixed(2))
   else return 0
 }
 

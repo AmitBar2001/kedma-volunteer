@@ -11,7 +11,9 @@ export default function Sidebar() {
             <Link to="/Report">
                 <SideBarIcon icon={<FaPencilAlt size="32" />} text="דיווח שעות " />
             </Link>
-            <SideBarIcon icon={<FaUpload size="32" />} text="העלאת מסמכים" />
+            <Link to="./Upload">
+                <SideBarIcon icon={<FaUpload size="32" />} text="העלאת מסמכים" />
+            </Link>
             <Link to="/Hours">
                 <SideBarIcon icon={<BsCalendar2WeekFill size="32" />} text="פירוט שעות" />
             </Link>
