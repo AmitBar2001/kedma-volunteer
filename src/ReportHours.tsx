@@ -11,74 +11,70 @@ import {
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useFormik } from 'formik'
 
-function calcTime(start: string, end: string) {
-  var splitted1 = start.split(":");
-  var splitted2 = end.split(":");
-  var statringHour = parseInt(splitted1[0]);
-  var endingHour = parseInt(splitted2[0]);
+function calcTime (start: string, end: string) {
+  const splitted1 = start.split(':')
+  const splitted2 = end.split(':')
+  const statringHour = parseInt(splitted1[0])
+  const endingHour = parseInt(splitted2[0])
   if (endingHour < 7 && statringHour > 7) {
     var hours = (24 - statringHour) + (endingHour)
-  }
-  else hours = parseInt(splitted2[0]) - parseInt(splitted1[0])
-  var minutes = parseInt(splitted2[1]) - parseInt(splitted1[1])
-  var total = hours + (minutes / 60)
+  } else hours = parseInt(splitted2[0]) - parseInt(splitted1[0])
+  const minutes = parseInt(splitted2[1]) - parseInt(splitted1[1])
+  const total = hours + (minutes / 60)
   if (total > 0) return parseFloat(total.toFixed(2))
   else return 0
 }
 
-async function logHours(user: any, hours: number, reason: string, date: string, category: string) {
+async function logHours (user: any, hours: number, reason: string, date: string, category: string) {
   if (user != null) {
     try {
       const docRef = await addDoc(collection(db, 'hours'), {
         uid: user.uid,
-        category: category,
-        hours: hours,
-        reason: reason,
+        category,
+        hours,
+        reason,
         status: 'ממתין',
         reportedAt: serverTimestamp(),
-        date: date
+        date
       })
       console.log('Document written with ID: ', docRef.id)
-      alert(hours + " שעות דווחו ")
-
+      alert(`שעות דווחו ${hours}`)
     } catch (e) {
       console.error('Error adding document: ', e)
     }
     try {
-      const q = query(collection(db, "users"), where("uid", "==", user.uid));
-      const querySnapshot = await getDocs(q);
+      const q = query(collection(db, 'users'), where('uid', '==', user.uid))
+      const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doce) => {
-        const userRef = doc(db, "users", doce.id);
+        const userRef = doc(db, 'users', doce.id)
         updateDoc(userRef, {
-          "pendingHours": increment(hours)
-        });
-        console.log(doce.id, " => ", doce.data());
-      });
+          pendingHours: increment(hours)
+        })
+        console.log(doce.id, ' => ', doce.data())
+      })
     } catch (e) {
       console.log(e)
     }
   }
 }
 
-export default function ReportHours() {
+export default function ReportHours () {
   const [user] = useAuthState(auth)
   const formik = useFormik({
     initialValues: {
-      category: "קהילה-אירועים קהילתיים",
-      description: "",
-      date: "",
-      startHour: "",
-      endHour: ""
+      category: 'קהילה-אירועים קהילתיים',
+      description: '',
+      date: '',
+      startHour: '',
+      endHour: ''
     },
     onSubmit: values => {
       const hoursToReport = calcTime(values.startHour, values.endHour)
       if (hoursToReport > 0) logHours(user, hoursToReport, values.description, values.date, values.category)
-      else alert("לא ניתן לדווח על מספר שעות שלילי")
+      else alert('לא ניתן לדווח על מספר שעות שלילי')
       formik.resetForm()
-
-    },
-  });
-
+    }
+  })
 
   return <div >
     <form className='card flex flex-col justify-center items-center gap-2 py-2 mb-24 w-full mx-auto px-16' onSubmit={formik.handleSubmit}>
