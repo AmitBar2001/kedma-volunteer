@@ -1,19 +1,25 @@
-import { collection, query, where } from 'firebase/firestore'
+import { collection, orderBy, query, where } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from './firebase'
-import { useState, useEffect } from "react"
 
 
 
 
-export default function ReportedHours({ uid }: { uid: string }) {
-  const q = query(collection(db, 'hours'), where('uid', '==', uid))
+export default function ReportedHours({ user }: { user: any }) {
+  const q = query(collection(db, 'hours'), where('uid', '==', user.uid), orderBy("date", "desc"))
   const [snapshot, loading, error] = useCollection(q)
+  console.log(user)
 
 
-  if (loading) return <p>Loading...</p>
 
-  if (error != null) return <p>Error :(</p>
+  if (loading) return <p className='text-white'>Loading...</p>
+
+  if (error != null) {
+    console.log(error)
+    return <p className='text-white'>Error :(</p>
+  }
+
+
 
   return (
     <div className='overflow-auto max-h-3/4
@@ -40,8 +46,8 @@ export default function ReportedHours({ uid }: { uid: string }) {
         </tr>)}
       </table>
       <div className='bg-gray-50 w-full'>
-        <p className=' inline-block'>סך שעות מאושרות: {0}</p>
-        <p className=' mx-16 inline-block'>סך שעות ממתינות: {0}</p>
+        <p className=' inline-block font-semibold'>סך שעות מאושרות: {0}</p>
+        <p className=' mx-16 inline-block font-semibold'>סך שעות ממתינות: {user.pendingHours}</p>
       </div>
     </div>
   )

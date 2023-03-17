@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 import UploadDocs from "./UploadDocs"
 import Home from './Home'
 
-function App () {
+function App() {
   const [user] = useAuthState(auth)
 
   return (
@@ -16,7 +16,7 @@ function App () {
         <Route path="/" element={<Home user={user} />} />
         <Route path="/Report" element={<ReportHours />} />
         <Route path="/Upload" element={<UploadDocs />} />
-        <Route path="/Hours" element={(user != null) && <ReportedHours uid={user.uid} />} />
+        <Route path="/Hours" element={(user != null) && <ReportedHours user={user} />} />
       </Routes>
       {user != null && <Sidebar />}
     </div>

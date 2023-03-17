@@ -38,7 +38,7 @@ export default function ReportHours() {
 
 
     return <div >
-        <form className='card flex flex-col justify-center items-center gap-2 py-2 mb-24 w-full' onSubmit={formik.handleSubmit}>
+        <form className=' overflow-auto card grid grid-cols-2 sm:grid-cols-6 gap-4 text-center py-6 mb-24 max-h-96' onSubmit={formik.handleSubmit}>
             <label htmlFor="firstName">
                 שם פרטי
             </label>
@@ -140,7 +140,7 @@ export default function ReportHours() {
                 required
             />
             <label htmlFor="gender">
-                מגדר
+                מגדר:
             </label>
             <input
                 type="text"
@@ -149,7 +149,7 @@ export default function ReportHours() {
                 value={formik.values.gender}
                 required
             />
-            <button className='button w-full' type='submit'>שלח לאישור</button>
+            <button className='button w-full mr-24 text-sm' type='submit'>עדכון פרטים</button>
         </form>
     </div>
 }

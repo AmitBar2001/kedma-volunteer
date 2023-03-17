@@ -3,6 +3,10 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  query, where, getDocs,
+  updateDoc,
+  doc,
+  increment
 } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useFormik } from 'formik'
@@ -40,6 +44,19 @@ async function logHours(user: any, hours: number, reason: string, date: string, 
     } catch (e) {
       console.error('Error adding document: ', e)
     }
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doce) => {
+        const userRef = doc(db, "users", doce.id);
+        updateDoc(userRef, {
+          "pendingHours": increment(hours)
+        });
+        console.log(doce.id, " => ", doce.data());
+      });
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
@@ -64,7 +81,7 @@ export default function ReportHours() {
 
 
   return <div >
-    <form className='card flex flex-col justify-center items-center gap-2 py-2 mb-24 w-full' onSubmit={formik.handleSubmit}>
+    <form className='card flex flex-col justify-center items-center gap-2 py-2 mb-24 w-full mx-auto px-16' onSubmit={formik.handleSubmit}>
       <label htmlFor="category">
         מערך פעילות
       </label>
