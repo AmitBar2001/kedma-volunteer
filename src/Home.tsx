@@ -1,4 +1,6 @@
 import Login from "./Login"
+import { faker } from '@faker-js/faker';
+
 
 export default function Home({ user }: { user: any }) {
     return (
@@ -6,10 +8,10 @@ export default function Home({ user }: { user: any }) {
             <div className="sm:w-1/2 flex flex-col items-center">
                 <h1 className=" text-center mb-12 text-midnight text-3xl font-bold">דף ריכוז טפסים</h1>
                 {user != null && <> <h2 className=" text-center text-xl text-midnight font-bold">
-                    {user.name} שלום 👋
+                    {faker.name.firstName()} שלום 👋
                 </h2>
                     <h2 className="text-center mb-12 text-xl text-midnight font-bold">
-                        יש לך 0 שעות מאושרות 🎉
+                        יש לך {faker.datatype.number()} שעות מאושרות 🎉
                     </h2>
                 </>}
                 <Login />

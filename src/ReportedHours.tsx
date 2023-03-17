@@ -2,15 +2,10 @@ import { collection, orderBy, query, where } from 'firebase/firestore'
 import { useCollection } from 'react-firebase-hooks/firestore'
 import { db } from './firebase'
 
-
-
-
-export default function ReportedHours({ user }: { user: any }) {
-  const q = query(collection(db, 'hours'), where('uid', '==', user.uid), orderBy("date", "desc"))
+export default function ReportedHours ({ user }: { user: any }) {
+  const q = query(collection(db, 'hours'), where('uid', '==', user.uid), orderBy('date', 'desc'))
   const [snapshot, loading, error] = useCollection(q)
   console.log(user)
-
-
 
   if (loading) return <p className='text-white'>Loading...</p>
 
@@ -18,8 +13,6 @@ export default function ReportedHours({ user }: { user: any }) {
     console.log(error)
     return <p className='text-white'>Error :(</p>
   }
-
-
 
   return (
     <div className='overflow-auto max-h-3/4
@@ -34,20 +27,26 @@ export default function ReportedHours({ user }: { user: any }) {
             <th>תיאור הפעילות</th>
           </tr>
         </thead>
-        {snapshot?.docs.map((doc, i) => <tr className={i % 2 == 0 ? "bg-gray-100" : "bg-white"}>
+        {snapshot?.docs.map((doc, i) => <tr key={doc.id} className={i % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
           <td className='row-text'>{doc.data().date}</td>
           <td className='row-text'>{doc.data().hours}</td>
-          <td className='row-text'><span className={"rounded-lg p-1.5 tracking-wider" +
-            (doc.data().status === "ממתין" ? " text-yellow-800 bg-yellow-300" :
-              doc.data().status === "מאושר" ? " text-green-800 bg-green-200" :
-                doc.data().status === "נדחה" ? " bg-red-200 text-red-800" : "")}>{doc.data().status}</span></td>
+          <td className='row-text'><span className={'rounded-lg p-1.5 tracking-wider' +
+            (doc.data().status === 'ממתין'
+              ? ' text-yellow-800 bg-yellow-300'
+              : doc.data().status === 'מאושר'
+                ? ' text-green-800 bg-green-200'
+                : doc.data().status === 'נדחה' ? ' bg-red-200 text-red-800' : '')}>{doc.data().status}</span></td>
           <td className='row-text'>{doc.data().category}</td>
           <td className='row-text'>{doc.data().reason}</td>
         </tr>)}
       </table>
       <div className='bg-gray-50 w-full'>
-        <p className=' inline-block font-semibold'>סך שעות מאושרות: {0}</p>
-        <p className=' mx-16 inline-block font-semibold'>סך שעות ממתינות: {user.pendingHours}</p>
+        <p className=' inline-block font-semibold'>סך שעות מאושרות: {snapshot?.docs.filter(doc => doc.data().status === 'מאושר').map(doc => doc.data().hours).reduce(
+          (accumulator, currentValue) => accumulator + currentValue, 0
+        )}</p>
+        <p className=' mx-16 inline-block font-semibold'>סך שעות ממתינות: {snapshot?.docs.filter(doc => doc.data().status === 'ממתין').map(doc => doc.data().hours).reduce(
+          (accumulator, currentValue) => accumulator + currentValue, 0
+        )}</p>
       </div>
     </div>
   )
