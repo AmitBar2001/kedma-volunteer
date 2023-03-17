@@ -1,9 +1,8 @@
-import Login from "./Login"
-import { faker } from '@faker-js/faker';
+import Login from './Login'
+import { faker } from '@faker-js/faker'
 
-
-export default function Home({ user }: { user: any }) {
-    return (
+export default function Home ({ user }: { user: any }) {
+  return (
         <div className="card flex items-center justify-center">
             <div className="sm:w-1/2 flex flex-col items-center">
                 <h1 className=" text-center mb-12 text-midnight text-3xl font-bold">דף ריכוז טפסים</h1>
@@ -21,5 +20,5 @@ export default function Home({ user }: { user: any }) {
             </div>
 
         </div>
-    )
+  )
 }

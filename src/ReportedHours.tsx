@@ -42,10 +42,10 @@ export default function ReportedHours ({ user }: { user: any }) {
       </table>
       <div className='bg-gray-50 w-full'>
         <p className=' inline-block font-semibold'>סך שעות מאושרות: {snapshot?.docs.filter(doc => doc.data().status === 'מאושר').map(doc => doc.data().hours).reduce(
-          (accumulator, currentValue) => accumulator + currentValue, 0
+          (accumulator: number, currentValue: number) => accumulator + currentValue, 0
         )}</p>
         <p className=' mx-16 inline-block font-semibold'>סך שעות ממתינות: {snapshot?.docs.filter(doc => doc.data().status === 'ממתין').map(doc => doc.data().hours).reduce(
-          (accumulator, currentValue) => accumulator + currentValue, 0
+          (accumulator: number, currentValue: number) => accumulator + currentValue, 0
         )}</p>
       </div>
     </div>
