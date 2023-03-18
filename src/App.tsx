@@ -16,10 +16,7 @@ function App() {
         <Route path='/' element={<Home user={user} />} />
         <Route path='/Report' element={<ReportHours />} />
         <Route path='/Upload' element={<UploadDocs />} />
-        <Route
-          path='/Hours'
-          element={user != null && <ReportedHours user={user} />}
-        />
+        <Route path='/Hours' element={user != null && <ReportedHours user={user} />} />
       </Routes>
       {user != null && <Sidebar />}
     </div>
