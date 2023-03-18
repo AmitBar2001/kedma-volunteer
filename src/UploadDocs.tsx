@@ -1,10 +1,7 @@
-import { db, auth } from './firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useFormik } from 'formik';
 
+// TODO: change this to register page
 export default function ReportHours() {
-  const [user] = useAuthState(auth);
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -20,12 +17,10 @@ export default function ReportHours() {
       gender: '',
     },
     onSubmit: (values) => {
-      if (user != null) {
-        try {
-          alert(values + ' שעות דווחו ');
-        } catch (e) {
-          console.error('Error adding document: ', e);
-        }
+      try {
+        alert(values + ' שעות דווחו ');
+      } catch (e) {
+        console.error('Error adding document: ', e);
       }
     },
   });

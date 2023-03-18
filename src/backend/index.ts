@@ -8,7 +8,15 @@ import {
   sendPasswordResetEmail,
   signOut,
 } from 'firebase/auth';
-import { getFirestore, query, getDocs, collection, where, addDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  query,
+  getDocs,
+  collection as firestoreCollection,
+  doc as firestoreDoc,
+  where,
+  setDoc,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_apiKey,
@@ -22,16 +30,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const collection = (path: string, ...pathSegments: string[]) =>
+  firestoreCollection(db, path, ...pathSegments);
+const doc = (path: string, ...pathSegments: string[]) => firestoreDoc(db, path, ...pathSegments);
 const googleProvider = new GoogleAuthProvider();
 
 const signInWithGoogle = async () => {
   const res = await signInWithPopup(auth, googleProvider);
   const user = res.user;
-  const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+  const q = query(collection('users'), where('uid', '==', user.uid));
   const docs = await getDocs(q);
   if (docs.docs.length === 0) {
-    await addDoc(collection(db, 'users'), {
-      uid: user.uid,
+    await setDoc(doc('users', user.uid), {
       name: user.displayName,
       authProvider: 'google',
       email: user.email,
@@ -58,8 +68,7 @@ const registerWithEmailAndPassword = async ({
 }) => {
   const res = await createUserWithEmailAndPassword(auth, email, password);
   const user = res.user;
-  await addDoc(collection(db, 'users'), {
-    uid: user.uid,
+  await setDoc(doc('users', user.uid), {
     name,
     authProvider: 'local',
     email,
@@ -71,9 +80,18 @@ const sendPasswordReset = async (email: string) => {
 const logout = async () => {
   await signOut(auth);
 };
+
+export interface User {
+  email: string;
+  authProvider: string;
+  name: string;
+  id: string;
+}
+
 export {
   auth,
-  db,
+  collection,
+  doc,
   signInWithGoogle,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,

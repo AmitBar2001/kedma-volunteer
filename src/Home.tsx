@@ -1,22 +1,14 @@
 import Login from './Login';
-import { faker } from '@faker-js/faker';
+import UserDetailsPreview from './UserDetailsPreview';
+import { type User } from './backend';
 
-export default function Home({ user }: { user: any }) {
+export default function Home({ user }: { user?: User }) {
   return (
     <div className='card flex items-center justify-center'>
       <div className='sm:w-1/2 flex flex-col items-center'>
         <h1 className=' text-center mb-12 text-midnight text-3xl font-bold'>דף ריכוז טפסים</h1>
-        {user != null && (
-          <>
-            {' '}
-            <h2 className=' text-center text-xl text-midnight font-bold'>
-              {faker.name.firstName()} שלום 👋
-            </h2>
-            <h2 className='text-center mb-12 text-xl text-midnight font-bold'>
-              יש לך {faker.datatype.number()} שעות מאושרות 🎉
-            </h2>
-          </>
-        )}
+        {/* TODO: define a fixed width for this section, and make sure to account for long names */}
+        {user != null && <UserDetailsPreview user={user} />}
         <Login />
       </div>
       <div className='w-1/2 p-5 sm:block hidden'>

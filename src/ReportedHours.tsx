@@ -1,11 +1,10 @@
-import { collection, orderBy, query, where } from 'firebase/firestore';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import { db } from './firebase';
+import { orderBy, query } from 'firebase/firestore';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { collection, type User } from './backend';
 
-export default function ReportedHours({ user }: { user: any }) {
-  const q = query(collection(db, 'hours'), where('uid', '==', user.uid), orderBy('date', 'desc'));
-  const [snapshot, loading, error] = useCollection(q);
-  console.log(user);
+export default function ReportedHours({ user }: { user: User }) {
+  const q = query(collection('users', user.id, 'hours'), orderBy('date', 'desc'));
+  const [hoursReported, loading, error] = useCollectionData(q);
 
   if (loading) return <p className='text-white'>Loading...</p>;
 
@@ -29,7 +28,7 @@ export default function ReportedHours({ user }: { user: any }) {
             <th>תיאור הפעילות</th>
           </tr>
         </thead>
-        {snapshot?.docs.map((doc, i) => (
+        {hoursReported?.map((doc, i) => (
           <tr key={doc.id} className={i % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
             <td className='row-text'>{doc.data().date}</td>
             <td className='row-text'>{doc.data().hours}</td>
@@ -57,15 +56,15 @@ export default function ReportedHours({ user }: { user: any }) {
       <div className='bg-gray-50 w-full'>
         <p className=' inline-block font-semibold'>
           סך שעות מאושרות:{' '}
-          {snapshot?.docs
-            .filter((doc) => doc.data().status === 'מאושר')
+          {hoursReported
+            ?.filter((doc) => doc.data().status === 'מאושר')
             .map((doc) => doc.data().hours)
             .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)}
         </p>
         <p className=' mx-16 inline-block font-semibold'>
           סך שעות ממתינות:{' '}
-          {snapshot?.docs
-            .filter((doc) => doc.data().status === 'ממתין')
+          {hoursReported
+            ?.filter((doc) => doc.data().status === 'ממתין')
             .map((doc) => doc.data().hours)
             .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)}
         </p>
