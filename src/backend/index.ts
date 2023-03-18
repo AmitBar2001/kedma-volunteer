@@ -86,6 +86,8 @@ export interface User {
   authProvider: string;
   name: string;
   id: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 export {

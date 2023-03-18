@@ -10,7 +10,9 @@ export default function UserDetailsPreview({ user }: { user: User }) {
 
   return (
     <>
-      <h2 className=' text-center text-xl text-midnight font-bold'>{user.name} שלום 👋</h2>
+      <h2 className=' text-center text-xl text-midnight font-bold'>
+        {user.firstName != null ? `${user.firstName} שלום 👋` : 'שלום 👋  מחכים לעדכון הפרטים'}
+      </h2>
       <h2 className='text-center mb-12 text-xl text-midnight font-bold'>
         יש לך
         {loading ? (

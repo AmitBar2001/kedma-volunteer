@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home user={user} />} />
         <Route path='/Report' element={user != null && <ReportHours user={user} />} />
-        <Route path='/Upload' element={<UploadDocs />} />
+        <Route path='/Upload' element={user != null && <UploadDocs user={user} />} />
         <Route path='/Hours' element={user != null && <ReportedHours user={user} />} />
       </Routes>
       {user != null && <Sidebar />}

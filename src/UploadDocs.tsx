@@ -1,11 +1,13 @@
+import { updateDoc } from 'firebase/firestore';
 import { useFormik } from 'formik';
+import { doc, type User } from './backend';
 
 // TODO: change this to register page
-export default function ReportHours() {
+export default function ReportHours({ user }: { user: User }) {
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      firstName: user.firstName ?? '',
+      lastName: user.lastName ?? '',
       phone: '',
       email: '',
       id: '',
@@ -16,8 +18,12 @@ export default function ReportHours() {
       degree: '',
       gender: '',
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       try {
+        await updateDoc(doc('users', user.id), {
+          firstName: values.firstName,
+          lastName: values.lastName,
+        });
         alert(values + ' שעות דווחו ');
       } catch (e) {
         console.error('Error adding document: ', e);
