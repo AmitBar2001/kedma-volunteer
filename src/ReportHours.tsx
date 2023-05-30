@@ -62,13 +62,6 @@ export default function ReportHours ({ user }: { user: any }) {
       startHour: '',
       endHour: '',
     },
-    onSubmit: (values) => {
-      const hoursToReport = calcTime(values.startHour, values.endHour);
-      if (hoursToReport > 0)
-        logHours(user, hoursToReport, values.description, values.date, values.category);
-      else alert('לא ניתן לדווח על מספר שעות שלילי');
-      formik.resetForm();
-    },
     onSubmit: values => {
       const hoursToReport = calcTime(values.startHour, values.endHour)
       if (hoursToReport > 0) {
