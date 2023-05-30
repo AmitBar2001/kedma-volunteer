@@ -4,7 +4,7 @@ import { useCollection } from 'react-firebase-hooks/firestore'
 import Login from './Login'
 
 export default function Home ({ user }: { user: any }) {
-  const admins = ['nOETVCAhR6e8YSK9I0VSqH2yQnJ2']
+  const admins = ['nOETVCAhR6e8YSK9I0VSqH2yQnJ2', 'gakLmKrUKzUTKaXPvM02a1P1S2x1']
   let firstname = ''
   let approvedHours = 0
   if (user != null) {
