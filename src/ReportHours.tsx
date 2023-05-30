@@ -26,10 +26,26 @@ function calcTime (start: string, end: string) {
 }
 
 async function logHours (user: any, hours: number, reason: string, date: string, category: string) {
+  let userName = ''
   if (user != null) {
+    try {
+      const q = query(collection(db, 'users'), where('uid', '==', user.uid))
+      const querySnapshot = await getDocs(q)
+      querySnapshot.forEach((doce) => {
+        const userRef = doc(db, 'users', doce.id)
+        void updateDoc(userRef, {
+          pendingHours: increment(hours)
+        })
+        console.log(doce.id, ' => ', doce.data().name)
+        userName = doce.data().firstName
+      })
+    } catch (e) {
+      console.log(e)
+    }
     try {
       const docRef = await addDoc(collection(db, 'hours'), {
         uid: user.uid,
+        name: userName,
         category,
         hours,
         reason,
@@ -41,19 +57,7 @@ async function logHours (user: any, hours: number, reason: string, date: string,
       alert(`שעות דווחו ${hours}`)
     } catch (e) {
       console.error('Error adding document: ', e)
-    }
-    try {
-      const q = query(collection(db, 'users'), where('uid', '==', user.uid))
-      const querySnapshot = await getDocs(q)
-      querySnapshot.forEach((doce) => {
-        const userRef = doc(db, 'users', doce.id)
-        updateDoc(userRef, {
-          pendingHours: increment(hours)
-        })
-        console.log(doce.id, ' => ', doce.data())
-      })
-    } catch (e) {
-      console.log(e)
+      console.log(user.uid.name)
     }
   }
 }
@@ -70,7 +74,7 @@ export default function ReportHours () {
     },
     onSubmit: values => {
       const hoursToReport = calcTime(values.startHour, values.endHour)
-      if (hoursToReport > 0) logHours(user, hoursToReport, values.description, values.date, values.category)
+      if (hoursToReport > 0) void logHours(user, hoursToReport, values.description, values.date, values.category)
       else alert('לא ניתן לדווח על מספר שעות שלילי')
       formik.resetForm()
     }

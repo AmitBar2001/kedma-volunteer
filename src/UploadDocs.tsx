@@ -1,43 +1,67 @@
 import { db, auth } from './firebase'
 import {
-    collection,
-    addDoc,
-    serverTimestamp,
+  collection,
+  query, where, getDocs,
+  updateDoc,
+  doc
 } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useFormik } from 'formik'
 
-export default function ReportHours() {
-    const [user] = useAuthState(auth)
-    const formik = useFormik({
-        initialValues: {
-            firstName: "",
-            lastName: "",
-            phone: "",
-            email: "",
-            id: "",
-            bankAccount: "",
-            bankBranch: "",
-            bankName: "",
-            school: "",
-            degree: "",
-            gender: "",
-        },
-        onSubmit: values => {
-            if (user != null) {
-                try {
+async function updateInfo (user: any, firstName: any, lastName: any, phone: any, email: any, id: any, bankAccount: any, bankBranch: any, bankName: any, school: any, degree: any, gender: any) {
+  try {
+    const q = query(collection(db, 'users'), where('uid', '==', user.uid))
+    const querySnapshot = await getDocs(q)
+    querySnapshot.forEach((doce) => {
+      const userRef = doc(db, 'users', doce.id)
+      updateDoc(userRef, {
+        firstName,
+        lastName,
+        phone,
+        email,
+        id,
+        bankAccount,
+        bankBranch,
+        bankName,
+        school,
+        degree,
+        gender
+      })
+    })
+  } catch (e) {
+    console.log(e)
+  }
+}
 
-                    alert(values + " שעות דווחו ")
+export default function UploadDocs () {
+  const [user] = useAuthState(auth)
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      phone: '',
+      email: '',
+      id: '',
+      bankAccount: '',
+      bankBranch: '',
+      bankName: '',
+      school: '',
+      degree: '',
+      gender: ''
+    },
+    onSubmit: values => {
+      if (user != null) {
+        try {
+          alert('עודכנו פרטים אישיים')
+          updateInfo(user, values.firstName, values.lastName, values.phone, values.email, values.id, values.bankAccount, values.bankBranch, values.bankName, values.school, values.degree, values.gender)
+        } catch (e) {
+          console.error('Error adding document: ', e)
+        }
+      }
+    }
+  })
 
-                } catch (e) {
-                    console.error('Error adding document: ', e)
-                }
-            }
-        },
-    });
-
-
-    return <div >
+  return <div >
         <form className=' overflow-auto card grid grid-cols-2 sm:grid-cols-6 gap-4 text-center py-6 mb-24 max-h-96' onSubmit={formik.handleSubmit}>
             <label htmlFor="firstName">
                 שם פרטי
@@ -76,7 +100,7 @@ export default function ReportHours() {
                 type="text"
                 name="email"
                 onChange={formik.handleChange}
-                value={formik.values.firstName}
+                value={formik.values.email}
                 required
             />
             <label htmlFor="id">
@@ -109,14 +133,14 @@ export default function ReportHours() {
                 value={formik.values.bankBranch}
                 required
             />
-            <label htmlFor="bankBranch">
+            <label htmlFor="bankName">
                 שם בנק
             </label>
             <input
                 type="text"
-                name="bankBranch"
+                name="bankName"
                 onChange={formik.handleChange}
-                value={formik.values.bankBranch}
+                value={formik.values.bankName}
                 required
             />
             <label htmlFor="school">
@@ -130,7 +154,7 @@ export default function ReportHours() {
                 required
             />
             <label htmlFor="degree">
-                מוסד לימודים
+           תואר
             </label>
             <input
                 type="text"
