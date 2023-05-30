@@ -1,14 +1,10 @@
-import { db, auth } from './firebase'
+import { db } from './firebase'
 import {
   collection,
   addDoc,
   serverTimestamp,
-  query, where, getDocs,
-  updateDoc,
-  doc,
-  increment
+  query, where, getDocs
 } from 'firebase/firestore'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useFormik } from 'formik'
 
 function calcTime (start: string, end: string) {
@@ -32,11 +28,6 @@ async function logHours (user: any, hours: number, reason: string, date: string,
       const q = query(collection(db, 'users'), where('uid', '==', user.uid))
       const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doce) => {
-        const userRef = doc(db, 'users', doce.id)
-        void updateDoc(userRef, {
-          pendingHours: increment(hours)
-        })
-        console.log(doce.id, ' => ', doce.data().name)
         userName = doce.data().firstName
       })
     } catch (e) {
@@ -56,14 +47,13 @@ async function logHours (user: any, hours: number, reason: string, date: string,
       console.log('Document written with ID: ', docRef.id)
       alert(`שעות דווחו ${hours}`)
     } catch (e) {
+      alert('אנא עדכן פרטים אישיים לפני דיווח על שעות')
       console.error('Error adding document: ', e)
-      console.log(user.uid.name)
     }
   }
 }
 
-export default function ReportHours () {
-  const [user] = useAuthState(auth)
+export default function ReportHours ({ user }: { user: any }) {
   const formik = useFormik({
     initialValues: {
       category: 'קהילה-אירועים קהילתיים',
@@ -74,9 +64,10 @@ export default function ReportHours () {
     },
     onSubmit: values => {
       const hoursToReport = calcTime(values.startHour, values.endHour)
-      if (hoursToReport > 0) void logHours(user, hoursToReport, values.description, values.date, values.category)
-      else alert('לא ניתן לדווח על מספר שעות שלילי')
-      formik.resetForm()
+      if (hoursToReport > 0) {
+        void logHours(user, hoursToReport, values.description, values.date, values.category)
+        formik.resetForm()
+      } else alert('לא ניתן לדווח על מספר שעות שלילי')
     }
   })
 

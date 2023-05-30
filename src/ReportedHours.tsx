@@ -15,7 +15,7 @@ export default function ReportedHours ({ user }: { user: any }) {
 
   return (
     <div className='overflow-auto
-    rounded-md mx-6 border-2 border-white mb-24 w-3/4'>
+    rounded-md mx-6 border-2 border-white mb-24 w-3/4 bg-gray-50'>
       <table className='w-full bg-gray-50'>
         <thead className=' border-b-2 border-gray-200 rounded-3xl tracking-wide font-thin text-right text-md'>
           <tr>
@@ -39,14 +39,15 @@ export default function ReportedHours ({ user }: { user: any }) {
           <td className='row-text'>{doc.data().reason}</td>
         </tr>)}
       </table>
-      <div className='bg-gray-50 w-full'>
-        <p className=' inline-block font-semibold'>סך שעות מאושרות: {snapshot?.docs.filter(doc => doc.data().status === 'מאושר').map(doc => doc.data().hours).reduce(
-          (accumulator: number, currentValue: number) => accumulator + currentValue, 0
-        )}</p>
-        <p className=' mx-16 inline-block font-semibold'>סך שעות ממתינות: {snapshot?.docs.filter(doc => doc.data().status === 'ממתין').map(doc => doc.data().hours).reduce(
-          (accumulator: number, currentValue: number) => accumulator + currentValue, 0
-        )}</p>
-      </div>
+      <div className='bg-gray-50 w-full inline-flex whitespace-nowrap py-2'>
+          <p className='block font-semibold'>סך שעות מאושרות: {snapshot?.docs.filter(doc => doc.data().status === 'מאושר').map(doc => doc.data().hours).reduce(
+            (accumulator: number, currentValue: number) => accumulator + currentValue, 0
+          )} </p>
+          <p className='mx-16 block font-semibold'>סך שעות ממתינות: {snapshot?.docs.filter(doc => doc.data().status === 'ממתין').map(doc => doc.data().hours).reduce(
+            (accumulator: number, currentValue: number) => accumulator + currentValue, 0
+          )}</p>
+        </div>
     </div>
+
   )
 }

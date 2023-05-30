@@ -14,10 +14,10 @@ function App () {
     <div className="flex bg-[url('/layered-waves-haikei.svg')] bg-cover place-items-center justify-center h-screen">
       <Routes>
         <Route path="/" element={<Home user={user} />} />
-        <Route path="/Report" element={<ReportHours />} />
-        <Route path="/Upload" element={<UploadDocs />} />
-        <Route path="/Hours" element={(user != null) && <ReportedHours user={user} />} />
-        <Route path="/Approve" element={(user != null) && <ApproveHours user={user} />} />
+        <Route path="/Report" element={<ReportHours user={user}/>} />
+        <Route path="/Upload" element={<UploadDocs user={user}/>} />
+        <Route path="/Hours" element={ <ReportedHours user={user} />} />
+        <Route path="/Approve" element={<ApproveHours user={user} />} />
       </Routes>
       {user != null && <Sidebar user={user}/>}
     </div>

@@ -26,7 +26,7 @@ export default function Sidebar ({ user }: { user: any }) {
                 <SideBarIcon icon={<FaPencilAlt size="32" />} text="דיווח שעות " />
             </Link>
             <Link to="./Upload">
-                <SideBarIcon icon={<FaUpload size="32" />} text="עדכון פרטים אישיים והעלאת מסמכים" />
+                <SideBarIcon icon={<FaUpload size="32" />} text="עדכון פרטים אישיים" />
             </Link>
             <Link to="/Hours">
                 <SideBarIcon icon={<BsCalendar2WeekFill size="32" />} text="פירוט שעות" />

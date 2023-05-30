@@ -1,11 +1,10 @@
-import { db, auth } from './firebase'
+import { db } from './firebase'
 import {
   collection,
   query, where, getDocs,
   updateDoc,
   doc
 } from 'firebase/firestore'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useFormik } from 'formik'
 
 async function updateInfo (user: any, firstName: any, lastName: any, phone: any, email: any, id: any, bankAccount: any, bankBranch: any, bankName: any, school: any, degree: any, gender: any) {
@@ -33,8 +32,7 @@ async function updateInfo (user: any, firstName: any, lastName: any, phone: any,
   }
 }
 
-export default function UploadDocs () {
-  const [user] = useAuthState(auth)
+export default function UploadDocs ({ user }: { user: any }) {
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -53,7 +51,8 @@ export default function UploadDocs () {
       if (user != null) {
         try {
           alert('עודכנו פרטים אישיים')
-          updateInfo(user, values.firstName, values.lastName, values.phone, values.email, values.id, values.bankAccount, values.bankBranch, values.bankName, values.school, values.degree, values.gender)
+          void updateInfo(user, values.firstName, values.lastName, values.phone, values.email, values.id, values.bankAccount, values.bankBranch, values.bankName, values.school, values.degree, values.gender)
+          formik.resetForm()
         } catch (e) {
           console.error('Error adding document: ', e)
         }
