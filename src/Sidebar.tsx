@@ -2,7 +2,7 @@ import { FaHome, FaPencilAlt, FaUpload } from 'react-icons/fa'
 import { BsCalendar2WeekFill } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 
-const admins = ['nOETVCAhR6e8YSK9I0VSqH2yQnJ2']
+const admins = ['nOETVCAhR6e8YSK9I0VSqH2yQnJ2', 'gakLmKrUKzUTKaXPvM02a1P1S2x1']
 
 export default function Sidebar ({ user }: { user: any }) {
   if (admins.includes(user.uid)) {
