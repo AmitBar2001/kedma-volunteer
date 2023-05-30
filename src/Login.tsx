@@ -1,5 +1,6 @@
 import { signInWithGoogle, logout } from './backend';
-import useUser from './backend/useUser';
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from './firebase'
 
 export default function Login () {
   const [user, loading, error] = useAuthState(auth)

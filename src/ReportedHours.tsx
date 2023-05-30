@@ -1,6 +1,6 @@
-import { orderBy, query } from 'firebase/firestore';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { collection, type User } from './backend';
+import { db } from './firebase'
+import { collection, query, where, orderBy } from 'firebase/firestore'
+import { useCollection } from 'react-firebase-hooks/firestore'
 
 export default function ReportedHours ({ user }: { user: any }) {
   const q = query(collection(db, 'hours'), where('uid', '==', user.uid), orderBy('date', 'desc'))
@@ -26,28 +26,28 @@ export default function ReportedHours ({ user }: { user: any }) {
             <th>תיאור הפעילות</th>
           </tr>
         </thead>
-        {hoursReportedList?.map((doc, i) => (
+        {snapshot?.docs.map((doc, i) => (
           <tr key={doc.id} className={i % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-            <td className='row-text'>{doc.date}</td>
-            <td className='row-text'>{doc.hours}</td>
+            <td className='row-text'>{doc.data().date}</td>
+            <td className='row-text'>{doc.data().hours}</td>
             <td className='row-text'>
               <span
                 className={
                   'rounded-lg p-1.5 tracking-wider' +
-                  (doc.status === 'ממתין'
+                  (doc.data().status === 'ממתין'
                     ? ' text-yellow-800 bg-yellow-300'
-                    : doc.status === 'מאושר'
+                    : doc.data().status === 'מאושר'
                     ? ' text-green-800 bg-green-200'
-                    : doc.status === 'נדחה'
+                    : doc.data().status === 'נדחה'
                     ? ' bg-red-200 text-red-800'
                     : '')
                 }
               >
-                {doc.status}
+                {doc.data().status}
               </span>
             </td>
-            <td className='row-text'>{doc.category}</td>
-            <td className='row-text'>{doc.reason}</td>
+            <td className='row-text'>{doc.data().category}</td>
+            <td className='row-text'>{doc.data().reason}</td>
           </tr>
         ))}
       </table>
