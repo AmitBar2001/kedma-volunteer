@@ -21,7 +21,7 @@ function App () {
       </Routes>
       {user != null && <Sidebar user={user}/>}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

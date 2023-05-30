@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "standard-with-typescript"
+        "standard-with-typescript",
+        "prettier"
     ],
     "overrides": [
     ],
@@ -15,10 +16,17 @@
         "project": ["./tsconfig.json"]
     },
     "plugins": [
-        "react"
+        "react",
+        "prettier"
     ],
     "rules": {
         "react/react-in-jsx-scope": "off",
-        "@typescript-eslint/explicit-function-return-type": "off"
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "prettier/prettier": ["warn", {
+            "endOfLine": "auto",
+            "printWidth": 100,
+            "singleQuote": true,
+            "jsxSingleQuote": true
+        }]
     }
 }

@@ -175,4 +175,5 @@ export default function UploadDocs ({ user }: { user: any }) {
             <button className='button w-full mr-24 text-sm' type='submit'>עדכון פרטים</button>
         </form>
     </div>
+  );
 }
